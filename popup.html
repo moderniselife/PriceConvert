@@ -22,6 +22,13 @@
       --transition: all 0.2s ease;
     }
 
+    html, body {
+      width: 400px;
+      min-height: 300px;
+      margin: 0;
+      padding: 0;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -32,11 +39,12 @@
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
       background: transparent;
       color: var(--text-primary);
-      min-width: 320px;
-      min-height: 400px;
+      width: 100%;
+      min-height: 300px;
       padding: 0;
       margin: 0;
       line-height: 1.5;
+      box-sizing: border-box;
     }
 
     .glass-panel {
@@ -48,7 +56,11 @@
       box-shadow: var(--shadow);
       padding: 1.5rem;
       width: 100%;
-      min-height: 100%;
+      min-height: 300px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
     }
 
     .header {
@@ -73,6 +85,8 @@
       display: flex;
       flex-direction: column;
       gap: 1.25rem;
+      flex: 1;
+      justify-content: center;
     }
 
     .source-amount {
@@ -217,14 +231,9 @@
   </style>
 </head>
 <body>
-  <div class="glass-panel">
-    <div class="header">
-      <h1>Price Converter</h1>
-      <div class="subtitle">Convert prices in a snap</div>
-    </div>
-    
+  <div class="glass-panel">    
     <div class="conversion-section">
-      <div class="target-section">
+      <div class="target-section" style="display: none;">
         <select id="target-currency" class="currency-select">
           <option value="">Select target currency</option>
           <!-- Will be populated by JavaScript -->
@@ -234,7 +243,7 @@
           <span class="spinner"></span>
         </button>
       </div>
-      <div class="conversion-arrow">↓</div>
+      <!-- <div class="conversion-arrow">↓</div> -->
       <div class="source-amount">
         <span id="source-amount" class="amount">0.00</span>
         <span id="source-currency" class="currency">USD</span>
