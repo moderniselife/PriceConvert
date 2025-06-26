@@ -106,8 +106,43 @@
     }
 
     .currency {
-      font-size: 1.25rem;
+      font-size: 1rem;
       color: var(--text-secondary);
+    }
+    
+    .clickable-currency {
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+    }
+    
+    .clickable-currency:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .currency-selector {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .currency-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      opacity: 0;
+      visibility: hidden;
+      min-width: 120px;
+      z-index: 1000;
+      transition: all 0.2s;
+      transform: translateY(5px);
+    }
+    
+    .currency-selector:hover .currency-dropdown,
+    .currency-selector:focus-within .currency-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
     }
 
     .target-section {
@@ -225,13 +260,7 @@
 </head>
 <body>
   <div class="glass-panel">
-    <div class="conversion-section">
-      <div class="target-section" style="display: none;">
-        <select id="target-currency" class="currency-select">
-          <option value="">Select currency</option>
-        </select>
-      </div>
-      
+    <div class="conversion-section">      
       <div class="source-amount">
         <span id="source-amount" class="amount">0.00</span>
         <span id="source-currency" class="currency">USD</span>
@@ -240,9 +269,15 @@
       <div class="conversion-arrow">↓</div>
       
       <div id="result" class="result">
-        <div class="source-amount">
-        <span id="result-amount" class="amount">0.00</span>
-        <span id="result-currency" class="currency">USD</span>
+        <div class="source-amount" id="result-container">
+          <span id="result-amount" class="amount">0.00</span>
+          <div class="currency-selector">
+            <span id="result-currency" class="currency clickable-currency">USD</span>
+            <select id="target-currency" class="currency-dropdown">
+              <option value="">Select currency</option>
+              <!-- Will be populated by JavaScript -->
+            </select>
+          </div>
         </div>
       </div>
       
