@@ -206,8 +206,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const formattedTarget = formatCurrency(convertedAmount, toCurrency);
       
       showResult(
-        `${formattedSource} = ${formattedTarget}\n` +
-        `1 ${fromCurrency} = ${rate.toFixed(6)} ${toCurrency}`,
+        {
+          sourceAmount: formattedSource,
+          targetAmount: formattedTarget,
+          rate: rate.toFixed(6),
+          fromCurrency,
+          toCurrency
+        },
         'success'
       );
     } catch (error) {
@@ -255,8 +260,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Show result message
   function showResult(message, type = 'info') {
-    resultEl.textContent = message;
-    resultEl.className = type;
+    const resultEl = document.getElementById('result');
+    const resultAmountEl = document.getElementById('result-amount');
+    const resultCurrencyEl = document.getElementById('result-currency');
+    
+    resultAmountEl.textContent = message.targetAmount;
+    resultCurrencyEl.textContent = message.toCurrency;
     resultEl.style.display = 'block';
     
     // Auto-hide info messages after 3 seconds
@@ -296,8 +305,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const formattedTarget = formatCurrency(convertedAmount, toCurrency);
       
       showResult(
-        `${formattedSource} = ${formattedTarget}\n` +
-        `1 ${fromCurrency} = ${rate.toFixed(6)} ${toCurrency}`,
+        {
+          sourceAmount: formattedSource,
+          targetAmount: formattedTarget,
+          rate: rate.toFixed(6),
+          fromCurrency,
+          toCurrency
+        },
         'success'
       );
     } catch (error) {

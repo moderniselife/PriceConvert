@@ -1,176 +1,255 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Price Converter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary-color: #4CAF50;
-      --primary-hover: #45a049;
-      --border-color: #ddd;
-      --success-bg: #dff0d8;
-      --success-text: #3c763d;
-      --error-bg: #f2dede;
-      --error-text: #a94442;
-      --text-muted: #6c757d;
+      --background: rgba(30, 30, 46, 0.8);
+      --background-hover: rgba(42, 42, 58, 0.9);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --accent: #7c3aed;
+      --accent-hover: #6d28d9;
+      --border: rgba(255, 255, 255, 0.1);
+      --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      --backdrop: blur(12px);
+      --border-radius: 12px;
+      --transition: all 0.2s ease;
     }
-    
+
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
-    
+
     body {
-      width: 320px;
-      padding: 16px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      font-size: 14px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: transparent;
+      color: var(--text-primary);
+      min-width: 320px;
+      min-height: 400px;
+      padding: 0;
+      margin: 0;
       line-height: 1.5;
-      color: #333;
     }
-    
-    h2 {
-      margin: 0 0 16px;
-      font-size: 18px;
-      color: #222;
-    }
-    
-    .container {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    
-    .conversion-info {
-      background-color: #f8f9fa;
-      border-radius: 6px;
-      padding: 12px;
-      margin-bottom: 8px;
-    }
-    
-    .input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-    
-    .input-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .input-row label {
-      font-weight: 500;
-      min-width: 80px;
-    }
-    
-    .input-row span {
-      flex: 1;
-      font-weight: 500;
-      text-align: right;
-      padding: 8px;
-      background-color: #f1f1f1;
-      border-radius: 4px;
-    }
-    
-    select, button {
-      padding: 10px 12px;
-      border-radius: 4px;
-      border: 1px solid var(--border-color);
-      font-size: 14px;
+
+    .glass-panel {
+      background: var(--background);
+      backdrop-filter: var(--backdrop);
+      -webkit-backdrop-filter: var(--backdrop);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
       width: 100%;
+      min-height: 100%;
     }
-    
+
+    .header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0 0 0.5rem 0;
+    }
+
+    .subtitle {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .conversion-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .source-amount {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1rem 1.25rem;
+      border-radius: var(--border-radius);
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .source-amount:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .amount {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+
+    .currency {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+    }
+
+    .target-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    select, button {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      font-size: 0.9375rem;
+      transition: var(--transition);
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2394a3b8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.7em top 50%;
+      background-size: 0.65em auto;
+    }
+
+    select:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
     select:focus {
       outline: none;
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.3);
     }
-    
+
     button {
-      background-color: var(--primary-color);
+      background: var(--accent);
       color: white;
+      font-weight: 500;
       border: none;
       cursor: pointer;
-      font-weight: 500;
-      transition: background-color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: var(--transition);
     }
-    
-    button:hover {
-      background-color: var(--primary-hover);
+
+    button:hover:not(:disabled) {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
     }
-    
+
+    button:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
     button:disabled {
-      background-color: #cccccc;
+      opacity: 0.7;
       cursor: not-allowed;
     }
-    
-    #result {
-      margin-top: 12px;
-      padding: 12px;
-      border-radius: 4px;
+
+    .result {
+      margin-top: 0.5rem;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      text-align: center;
+      white-space: pre-line;
+      min-height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .result.success {
+      background: rgba(34, 197, 94, 0.1);
+      color: #4ade80;
+    }
+
+    .result.error {
+      background: rgba(239, 68, 68, 0.1);
+      color: #f87171;
+    }
+
+    .result.info {
+      background: rgba(99, 102, 241, 0.1);
+      color: #818cf8;
+    }
+
+    .conversion-arrow {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--text-secondary);
+      font-size: 1.5rem;
+      margin: 0.25rem 0;
+      opacity: 0.6;
+    }
+
+    /* Loading spinner */
+    .spinner {
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
       display: none;
-      font-weight: 500;
-      text-align: center;
     }
-    
-    .success {
-      background-color: var(--success-bg);
-      color: var(--success-text);
-    }
-    
-    .error {
-      background-color: var(--error-bg);
-      color: var(--error-text);
-    }
-    
-    .loading {
-      text-align: center;
-      padding: 8px;
-      color: var(--text-muted);
-      font-style: italic;
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Currency Converter</h2>
+  <div class="glass-panel">
+    <div class="header">
+      <h1>Price Converter</h1>
+      <div class="subtitle">Convert prices in a snap</div>
+    </div>
     
-    <div class="conversion-info">
-      <div class="input-group">
-        <div class="input-row">
-          <label>Amount:</label>
-          <span id="source-amount">-</span>
-        </div>
-        <div class="input-row">
-          <label>From:</label>
-          <span id="source-currency">-</span>
-        </div>
-        <div class="input-row">
-          <label>To:</label>
-          <select id="target-currency">
-            <option value="">Select currency</option>
-            <option value="USD">US Dollar (USD)</option>
-            <option value="EUR">Euro (EUR)</option>
-            <option value="GBP">British Pound (GBP)</option>
-            <option value="JPY">Japanese Yen (JPY)</option>
-            <option value="AUD">Australian Dollar (AUD)</option>
-            <option value="CAD">Canadian Dollar (CAD)</option>
-            <option value="CHF">Swiss Franc (CHF)</option>
-            <option value="CNY">Chinese Yuan (CNY)</option>
-            <option value="INR">Indian Rupee (INR)</option>
-          </select>
+    <div class="conversion-section">
+      <div class="target-section">
+        <select id="target-currency" class="currency-select">
+          <option value="">Select target currency</option>
+          <!-- Will be populated by JavaScript -->
+        </select>
+        <button id="convert-btn" disabled>
+          <span class="btn-text">Convert</span>
+          <span class="spinner"></span>
+        </button>
+      </div>
+      <div class="conversion-arrow">↓</div>
+      <div class="source-amount">
+        <span id="source-amount" class="amount">0.00</span>
+        <span id="source-currency" class="currency">USD</span>
+      </div>
+
+      <div class="conversion-arrow">↓</div>
+      
+      <div id="result" class="result">
+        <div class="source-amount">
+          <span id="result-amount" class="amount">0.00</span>
+          <span id="result-currency" class="currency">USD</span>
         </div>
       </div>
     </div>
-    
-    <button id="convert-btn">Convert</button>
-    <div id="result"></div>
   </div>
-  
-  <script src="js/popup.js" type="module"></script>
+  <script src="js/popup.js" defer></script>
 </body>
 </html>
