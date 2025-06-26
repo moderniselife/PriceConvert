@@ -1,19 +1,47 @@
+// State
+let exchangeRates = {};
+let isLoading = false;
+let amount = 0;
+let fromCurrency = 'USD';
+
+// Get elements
+let sourceAmountEl;
+let sourceCurrencyEl;
+let targetCurrencyEl;
+let convertBtn;
+let resultEl;
+
+// Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-  // Get URL parameters
-  const urlParams = new URLSearchParams(window.location.search);
-  const amount = parseFloat(urlParams.get('amount'));
-  const fromCurrency = urlParams.get('from') || 'USD';
+  try {
+    // Get URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    amount = parseFloat(urlParams.get('amount'));
+    fromCurrency = urlParams.get('from') || 'USD';
 
-  // Get elements
-  const sourceAmountEl = document.getElementById('source-amount');
-  const sourceCurrencyEl = document.getElementById('source-currency');
-  const targetCurrencyEl = document.getElementById('target-currency');
-  const convertBtn = document.getElementById('convert-btn');
-  const resultEl = document.getElementById('result');
+    // Get elements
+    sourceAmountEl = document.getElementById('source-amount');
+    sourceCurrencyEl = document.getElementById('source-currency');
+    targetCurrencyEl = document.getElementById('target-currency');
+    convertBtn = document.getElementById('convert-btn');
+    resultEl = document.getElementById('result');
 
-  // State
-  let exchangeRates = {};
-  let isLoading = false;
+    // Set up event listeners
+    targetCurrencyEl.addEventListener('change', () => {
+      if (targetCurrencyEl.value) {
+        performConversion();
+      }
+    });
+
+    convertBtn.addEventListener('click', performConversion);
+
+    // Start initialization
+    init();
+  } catch (error) {
+    console.error('Initialization error:', error);
+    showResult(`Error: ${error.message}`, 'error');
+  }
+});
 
   // Initialize the popup
   async function init() {
@@ -38,6 +66,13 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // Enable convert button if we have exchange rates
       convertBtn.disabled = !Object.keys(exchangeRates).length;
+      
+      // Auto-convert if we have all required fields
+      setTimeout(() => {
+        if (targetCurrencyEl.value) {
+          performConversion();
+        }
+      }, 100);
     } catch (error) {
       console.error('Initialization error:', error);
       showResult(`Error: ${error.message}`, 'error');
@@ -53,12 +88,14 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Set default currency in dropdown if it exists
         if (defaultCurrency && defaultCurrency !== fromCurrency) {
-          const option = Array.from(targetCurrencyEl.options).find(
-            opt => opt.value === defaultCurrency
-          );
-          if (option) {
-            option.selected = true;
-          }
+          // const option = Array.from(targetCurrencyEl.options).find(
+          //   opt => opt.value === defaultCurrency
+          // );
+          // if (option) {
+          //   option.selected = true;
+          // }
+
+          targetCurrencyEl.value = defaultCurrency;
         }
         resolve();
       });
@@ -272,24 +309,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Handle convert button click
-  convertBtn.addEventListener('click', performConversion);
-  
-  // Auto-convert when target currency changes
-  targetCurrencyEl.addEventListener('change', () => {
-    if (targetCurrencyEl.value) {
-      performConversion();
-    }
-  });
-  
-  // Initial conversion if we have all required fields
-  if (targetCurrencyEl.value) {
-    performConversion();
-  }
-
-  // Initialize the popup when the page loads
-  init();
-});
 
 // Add CSS for the loading state
 const style = document.createElement('style');
